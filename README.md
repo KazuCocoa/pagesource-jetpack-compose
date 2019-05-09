@@ -91,6 +91,61 @@ Buttons view
 </com.android.internal.policy.DecorView>
 ```
 
+## Dive a bit
+
+I found below code in the b27ac2fe144ac6d6c06098ecfa22f4f2c6095743 based `androidx.compose.Composer`.
+
+Ah... Can we add `ViewGroup` into the compose?
+
+Then, maybe we can configure view data for Espresso, at least. Not sure for UiDevice.
+
+```kotlin
+    /**
+     * This method is the way to initiate a composition. The [composable] passed in will be executed
+     * to compose the children of the passed in [container].  Optionally, a [parent]
+     * [CompositionReference] can be provided to make the composition behave as a sub-composition of
+     * the parent.  The children of [container] will be updated and maintained by the time this
+     * method returns.
+     *
+     * It is important to call [disposeComposition] whenever this view is no longer needed in order
+     * to release resources.
+     *
+     * @param container The view whose children is being composed.
+     * @param parent The parent composition reference, if applicable. Default is null.
+     * @param composable The composable function intended to compose the children of [container].
+     *
+     * @see Compose.disposeComposition
+     * @see Composable
+     */
+    // TODO(lmr): rename to compose?
+    @MainThread
+    fun composeInto(
+        container: ViewGroup,
+        parent: CompositionReference? = null,
+        composable: @Composable() () -> Unit
+    ): CompositionContext? {
+        var root = getRootComponent(container) as? Root
+        if (root == null) {
+            container.removeAllViews()
+            root = Root()
+            root.composable = composable
+            setRoot(container, root)
+            val cc = CompositionContext.create(
+                container.context,
+                container,
+                root,
+                parent
+            )
+            cc.recompose()
+            return cc
+        } else {
+            root.composable = composable
+            root.recomposeCallback?.invoke(true)
+        }
+        return null
+    }
+```
+
 ## Concusion
 
 UiDevice and Espresso cannot get full hierarchy to detect elements...
