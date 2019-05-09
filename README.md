@@ -90,5 +90,10 @@ Buttons view
 ## Concusion
 
 UiDevice and Espresso cannot get full hierarchy to detect elements...
+
 Okay, but the feature is really awesome since we can handle elements without XMLs.
 While it means we must take care of snapshot testing more to ensure Views.
+
+> Jetpack Compose is currently in an early-exploration, pre-alpha stage.Its API surfaces are not yet finalized and it should not be used for production.
+
+As the compose page addresses, current status is exactly early stage. Looking forward to the evolution.
