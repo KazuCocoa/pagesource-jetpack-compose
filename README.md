@@ -1,6 +1,10 @@
 # pagesource-jetpack-compose
 This repository is to get page source of [jetpack compose](https://developer.android.com/jetpack/compose) in order to make sure if we can get elements in Espresso/UiAutomator2 layer
 
+Get the code from https://android.googlesource.com/platform/frameworks/support/+/refs/heads/androidx-master-dev/ui/README.md
+
+After getting source, you can get the demo app like below.
+
 ```
 $ cd frameworks/support/ui/
 $ git log #=> b27ac2fe144ac6d6c06098ecfa22f4f2c6095743
